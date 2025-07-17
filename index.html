@@ -130,7 +130,7 @@
     }
 
     async function loadEntries() {
-      const url = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/data.json`;
+      const url = `https://raw.githubusercontent.com/MrRoebot/situp-challenge-tracker/main/data.json`;
       console.log('📥 GET', url);
       const res = await fetch(url, { headers: GH_HEADERS });
       console.log('🔁 GET response', res.status, res);
