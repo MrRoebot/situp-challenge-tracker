@@ -94,7 +94,7 @@
     const GITHUB_CONFIG = {
       owner: 'MrRoebot',
       repo:  'situp-challenge-tracker',
-      token: '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'
+      token: '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'
     };
 
     //
@@ -130,7 +130,7 @@
     }
 
     async function loadEntries() {
-      const url = `https://raw.githubusercontent.com/MrRoebot/situp-challenge-tracker/main/data.json`;
+      const url = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/data.json`;
       console.log('📥 GET', url);
       const res = await fetch(url, { headers: GH_HEADERS });
       console.log('🔁 GET response', res.status, res);
