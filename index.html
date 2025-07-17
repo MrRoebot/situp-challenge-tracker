@@ -1,275 +1,281 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>7-Day Sit-Up Challenge Tracker</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-            color: #fff;
-        }
-        h1 {
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 2em;
-        }
-        .stats { display: flex; justify-content: space-around; margin-bottom: 20px; }
-        .stat-card {
-            background: rgba(255,255,255,0.1);
-            border-radius: 8px;
-            padding: 15px;
-            text-align: center;
-            width: 30%;
-        }
-        .stat-value { font-size: 2em; font-weight: bold; }
-        .stat-label { margin-top: 5px; font-size: 0.9em; text-transform: uppercase; color: #ccc; }
-        .form-container {
-            background: rgba(255,255,255,0.1);
-            border-radius: 8px;
-            padding: 20px;
-            max-width: 500px;
-            margin: 0 auto 20px;
-        }
-        .form-row { display: flex; justify-content: space-between; }
-        .form-group {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            margin-right: 10px;
-        }
-        .form-group:last-child { margin-right: 0; }
-        .form-group label { margin-bottom: 5px; }
-        .form-group input {
-            padding: 8px;
-            border: none;
-            border-radius: 4px;
-        }
-        .btn {
-            width: 100%;
-            padding: 10px;
-            background: #ff6b6b;
-            border: none;
-            border-radius: 4px;
-            color: #fff;
-            font-size: 1em;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-        .alert {
-            margin-top: 10px;
-            padding: 10px;
-            border-radius: 4px;
-            text-align: center;
-        }
-        .alert-success { background: #2ecc71; }
-        .alert-danger  { background: #e74c3c; }
-        .alert-warning { background: #f1c40f; }
-        .entries-log {
-            max-width: 600px;
-            margin: 0 auto;
-            list-style: none;
-        }
-        .entry {
-            background: rgba(255,255,255,0.1);
-            padding: 10px;
-            border-radius: 4px;
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: space-between;
-        }
-        .entry .left { display: flex; flex-direction: column; }
-        .entry .date { font-size: 0.9em; }
-        .entry .person { font-weight: bold; }
-        .entry .reps   { font-size: 1.2em; }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>7-Day Sit-Up Challenge Tracker</title>
+  <style>
+    /* (same styles as before) */
+    * { margin:0; padding:0; box-sizing:border-box }
+    body {
+      font-family:Arial,sans-serif;
+      background:linear-gradient(135deg,#667eea,#764ba2);
+      color:#fff; padding:20px; min-height:100vh;
+    }
+    h1 { text-align:center; margin-bottom:20px; }
+    .stats { display:flex; justify-content:space-around; margin-bottom:20px }
+    .stat-card {
+      background:rgba(255,255,255,0.1);
+      border-radius:8px; padding:15px; text-align:center; width:30%;
+    }
+    .stat-value { font-size:2em; font-weight:bold; }
+    .stat-label { margin-top:5px; font-size:.9em; color:#ccc; }
+    .form-container {
+      background:rgba(255,255,255,0.1);
+      border-radius:8px; padding:20px; max-width:500px; margin:0 auto 20px;
+    }
+    .form-row { display:flex; justify-content:space-between }
+    .form-group { flex:1; display:flex; flex-direction:column; margin-right:10px }
+    .form-group:last-child { margin-right:0 }
+    .form-group label { margin-bottom:5px }
+    .form-group input {
+      padding:8px; border:none; border-radius:4px;
+    }
+    .btn {
+      width:100%; padding:10px; background:#ff6b6b; border:none;
+      border-radius:4px; color:#fff; font-size:1em; cursor:pointer;
+      margin-top:10px;
+    }
+    .alert { margin-top:10px; padding:10px; border-radius:4px; text-align:center }
+    .alert-success { background:#2ecc71 }
+    .alert-danger  { background:#e74c3c }
+    .alert-warning { background:#f1c40f; color:#333 }
+    .entries-log { list-style:none; max-width:600px; margin:0 auto }
+    .entry {
+      background:rgba(255,255,255,0.1); padding:10px;
+      border-radius:4px; margin-bottom:10px;
+      display:flex; justify-content:space-between;
+    }
+  </style>
 </head>
 <body>
-    <h1>7-Day Sit-Up Challenge Tracker</h1>
+  <h1>7-Day Sit-Up Challenge Tracker</h1>
 
-    <div class="stats">
-        <div class="stat-card">
-            <div class="stat-value" id="countdown">7d 00:00:00</div>
-            <div class="stat-label">Time Remaining</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-value remaining" id="repsRemaining">500</div>
-            <div class="stat-label">Reps Remaining</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-value average" id="dailyAverage">72</div>
-            <div class="stat-label">Daily Avg Needed</div>
-        </div>
+  <div class="stats">
+    <div class="stat-card">
+      <div class="stat-value" id="countdown">--</div>
+      <div class="stat-label">Time Remaining</div>
     </div>
-
-    <div class="form-container">
-        <div class="form-row">
-            <div class="form-group">
-                <label for="entryDate">Date:</label>
-                <input type="date" id="entryDate" required>
-            </div>
-            <div class="form-group">
-                <label for="entryReps">Sit-Ups:</label>
-                <input type="number" id="entryReps" min="1" max="500" placeholder="Reps" required>
-            </div>
-            <div class="form-group">
-                <label for="entryPerson">Name:</label>
-                <input type="text" id="entryPerson" placeholder="Your name" required>
-            </div>
-        </div>
-        <button class="btn" id="submitBtn" onclick="addEntry()">Add Entry</button>
-        <div id="alertContainer"></div>
+    <div class="stat-card">
+      <div class="stat-value" id="repsRemaining">--</div>
+      <div class="stat-label">Reps Remaining</div>
     </div>
+    <div class="stat-card">
+      <div class="stat-value" id="dailyAverage">--</div>
+      <div class="stat-label">Daily Avg Needed</div>
+    </div>
+  </div>
 
-    <ul class="entries-log" id="entriesList"></ul>
+  <div class="form-container">
+    <div class="form-row">
+      <div class="form-group">
+        <label for="entryDate">Date:</label>
+        <input type="date" id="entryDate" required>
+      </div>
+      <div class="form-group">
+        <label for="entryReps">Sit-Ups:</label>
+        <input type="number" id="entryReps" min="1" max="500" placeholder="Reps" required>
+      </div>
+      <div class="form-group">
+        <label for="entryPerson">Name:</label>
+        <input type="text" id="entryPerson" placeholder="Your name" required>
+      </div>
+    </div>
+    <button class="btn" id="submitBtn">Add Entry</button>
+    <div id="alertContainer"></div>
+  </div>
 
-<script>
-    // === CONFIGURATION — FILL IN YOUR DETAILS ===
+  <ul class="entries-log" id="entriesList"></ul>
+
+  <script>
+    //
+    // === 1) YOUR CONFIG — FILL IN THESE THREE VALUES ===
+    //
     const GITHUB_CONFIG = {
-        owner: 'MrRoebot',   // ← Your GitHub username
-        repo:  'situp-challenge-tracker',        // ← Your repository name
-        token: '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'  // ← Your PAT (repo or public_repo scope)
+      owner: 'MrRoebot',
+      repo:  'situp-challenge-tracker',
+      token: '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'
     };
 
-    // Do NOT touch below this line unless you know what you’re doing!
+    //
+    // === 2) DO NOT TOUCH BELOW THIS LINE ===
+    //
     const GH_HEADERS = {
-        'Authorization': `token ${GITHUB_CONFIG.token}`,
-        'Accept':        'application/vnd.github.v3+json',
-        'Content-Type':  'application/json'
+      'Authorization': `token ${GITHUB_CONFIG.token}`,
+      'Accept':        'application/vnd.github.v3+json',
+      'Content-Type':  'application/json'
     };
 
     let entries = [];
-    const CHALLENGE_GOAL = 500;
-    const CHALLENGE_END  = new Date('2025-07-22T21:00:00');
+    const GOAL     = 500;
+    const DEADLINE = new Date('2025-07-22T21:00:00');
 
     document.addEventListener('DOMContentLoaded', () => {
-        document.getElementById('entryDate').value = new Date().toISOString().split('T')[0];
-        initializeApp();
+      document.getElementById('entryDate').value = new Date().toISOString().split('T')[0];
+      document.getElementById('submitBtn').addEventListener('click', addEntry);
+      initializeApp();
     });
 
     async function initializeApp() {
-        updateCountdown();
-        setInterval(updateCountdown, 1000);
+      updateCountdown();
+      setInterval(updateCountdown, 1000);
+      try {
         await loadEntries();
-        updateStats();
-        updateEntriesList();
+      } catch(e) {
+        console.error(e);
+        showAlert('🔴 Failed to load entries', 'danger');
+      }
+      updateStats();
+      updateEntriesList();
     }
 
     async function loadEntries() {
-        try {
-            const url = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/data.json`;
-            const res = await fetch(url, { headers: GH_HEADERS });
-            if (res.ok) {
-                const data    = await res.json();
-                const parsed  = JSON.parse(atob(data.content));
-                entries = parsed.entries || [];
-            } else if (res.status === 404) {
-                await createDataFile();
-                entries = [];
-            } else {
-                const err = await res.json();
-                throw new Error(`GET failed ${res.status}: ${err.message}`);
-            }
-        } catch (e) {
-            console.error('Error loading entries:', e);
-            showAlert('Error loading entries. Please try again.', 'danger');
-            entries = [];
-        }
+      const url = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/data.json`;
+      console.log('📥 GET', url);
+      const res = await fetch(url, { headers: GH_HEADERS });
+      console.log('🔁 GET response', res.status, res);
+      if (res.status === 404) {
+        await createDataFile();
+        entries = [];
+        return;
+      }
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(`GET ${res.status}: ${err.message}`);
+      }
+      const js = await res.json();
+      entries = JSON.parse(atob(js.content)).entries || [];
     }
 
     async function createDataFile() {
-        const initialData = {
-            entries: [],
-            created: new Date().toISOString(),
-            challenge: { goal: CHALLENGE_GOAL, deadline: '2025-07-22T21:00:00' }
-        };
-        const url = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/data.json`;
-        const res = await fetch(url, {
-            method: 'PUT',
-            headers: GH_HEADERS,
-            body: JSON.stringify({
-                message: 'Initialize data file',
-                content: btoa(JSON.stringify(initialData, null, 2))
-            })
-        });
-        if (!res.ok) {
-            const err = await res.json();
-            throw new Error(`Initial PUT failed ${res.status}: ${err.message}`);
-        }
+      const initial = { entries: [], created: new Date().toISOString(), challenge:{goal:GOAL,deadline:DEADLINE}};
+      const url = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/data.json`;
+      console.log('📂 PUT (init)', url);
+      const res = await fetch(url, {
+        method: 'PUT',
+        headers: GH_HEADERS,
+        body: JSON.stringify({
+          message:'Initialize data.json',
+          content: btoa(JSON.stringify(initial, null,2))
+        })
+      });
+      console.log('🔁 init PUT response', res.status, await res.text());
+      if (!res.ok) throw new Error(`Init PUT ${res.status}`);
     }
 
-    async function saveEntry(newEntry) {
-        const url = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/data.json`;
+    async function saveEntry(entry) {
+      const url = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/data.json`;
+      console.log('🗂 GET before PUT', url);
+      const getRes = await fetch(url, { headers: GH_HEADERS });
+      console.log('🔁 pre-PUT GET', getRes.status, getRes);
+      if (!getRes.ok) {
+        const err = await getRes.json();
+        throw new Error(`GET before PUT ${getRes.status}: ${err.message}`);
+      }
+      const file = await getRes.json();
+      const data = JSON.parse(atob(file.content));
+      data.entries.push(entry);
+      data.lastUpdated = new Date().toISOString();
 
-        // 1) GET current file
-        const getRes = await fetch(url, { headers: GH_HEADERS });
-        if (!getRes.ok) {
-            const err = await getRes.json();
-            throw new Error(`GET before save failed ${getRes.status}: ${err.message}`);
-        }
-        const fileData = await getRes.json();
-        const current  = JSON.parse(atob(fileData.content));
-
-        // 2) Append entry & update
-        current.entries.push(newEntry);
-        current.lastUpdated = new Date().toISOString();
-
-        // 3) PUT back
-        const putRes = await fetch(url, {
-            method:  'PUT',
-            headers: GH_HEADERS,
-            body: JSON.stringify({
-                message: `Add ${newEntry.reps} reps by ${newEntry.person}`,
-                content: btoa(JSON.stringify(current, null, 2)),
-                sha:     fileData.sha
-            })
-        });
-        if (!putRes.ok) {
-            const err = await putRes.json();
-            throw new Error(`PUT failed ${putRes.status}: ${err.message}`);
-        }
+      console.log('📤 PUT updated', url);
+      const putRes = await fetch(url, {
+        method: 'PUT',
+        headers: GH_HEADERS,
+        body: JSON.stringify({
+          message:`Add ${entry.reps} reps by ${entry.person}`,
+          content:btoa(JSON.stringify(data, null,2)),
+          sha:file.sha
+        })
+      });
+      console.log('🔁 PUT response', putRes.status, await putRes.text());
+      if (!putRes.ok) {
+        const err = await putRes.json();
+        throw new Error(`PUT ${putRes.status}: ${err.message}`);
+      }
     }
 
     async function addEntry() {
-        const date   = document.getElementById('entryDate').value;
-        const reps   = parseInt(document.getElementById('entryReps').value, 10);
-        const person = document.getElementById('entryPerson').value.trim();
-        if (!date || !reps || !person) {
-            showAlert('Please complete all fields.', 'warning');
-            return;
-        }
-        const btn = document.getElementById('submitBtn');
-        btn.disabled = true;
-        btn.textContent = 'Saving…';
-        try {
-            const newEntry = { date, reps, person, timestamp: new Date().toISOString() };
-            await saveEntry(newEntry);
-            entries.push(newEntry);
-            entries.sort((a,b)=> new Date(b.date) - new Date(a.date));
-            updateStats();
-            updateEntriesList();
-            clearForm();
-            showAlert(`Entry added! ${reps} reps recorded for ${person}`, 'success');
-        } catch (e) {
-            console.error('Error saving entry:', e);
-            showAlert('Error saving entry. Please try again.', 'danger');
-        } finally {
-            btn.disabled = false;
-            btn.textContent = 'Add Entry';
-        }
+      const date   = document.getElementById('entryDate').value;
+      const reps   = +document.getElementById('entryReps').value;
+      const person = document.getElementById('entryPerson').value.trim();
+      if (!date||!reps||!person) {
+        showAlert('⚠️ Please fill in all fields', 'warning');
+        return;
+      }
+      const btn = document.getElementById('submitBtn');
+      btn.disabled = true;
+      btn.textContent = 'Saving…';
+      try {
+        const entry = { date, reps, person, timestamp:new Date().toISOString() };
+        await saveEntry(entry);
+        entries.push(entry);
+        entries.sort((a,b)=> new Date(b.date)-new Date(a.date));
+        updateStats();
+        updateEntriesList();
+        clearForm();
+        showAlert(`✅ Recorded ${reps} sit-ups for ${person}`, 'success');
+      } catch (e) {
+        console.error(e);
+        showAlert('🔴 Error saving entry', 'danger');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Add Entry';
+      }
     }
 
-    // —— keep your existing helper functions below unchanged: 
-    //     updateCountdown(), updateStats(), updateEntriesList(),
-    //     formatDate(), clearForm(), showAlert()
-</script>
+    // ——————————————————————————————————————
+    //        Helper functions kept intact
+    // ——————————————————————————————————————
+
+    function updateCountdown() {
+      const now = new Date();
+      const diff = Math.max(0, DEADLINE - now);
+      const d = Math.floor(diff/864e5);
+      const h = Math.floor(diff%864e5/36e5).toString().padStart(2,'0');
+      const m = Math.floor(diff%36e5/6e4).toString().padStart(2,'0');
+      const s = Math.floor(diff%6e4/1e3).toString().padStart(2,'0');
+      document.getElementById('countdown').textContent = `${d}d ${h}:${m}:${s}`;
+    }
+
+    function updateStats() {
+      const done = entries.reduce((sum,e)=> sum + e.reps, 0);
+      const remain = Math.max(0, GOAL - done);
+      const daysLeft = Math.ceil((DEADLINE - new Date())/864e5);
+      const avg = daysLeft>0 ? Math.ceil(remain/daysLeft) : remain;
+      document.getElementById('repsRemaining').textContent = remain;
+      document.getElementById('dailyAverage').textContent = avg;
+    }
+
+    function updateEntriesList() {
+      const ul = document.getElementById('entriesList');
+      ul.innerHTML = '';
+      entries.forEach(e => {
+        const li = document.createElement('li');
+        li.className = 'entry';
+        li.innerHTML = `
+          <div>
+            <div class="date">${formatDate(e.date)}</div>
+            <div class="person">${e.person}</div>
+          </div>
+          <div class="reps">${e.reps}</div>`;
+        ul.appendChild(li);
+      });
+    }
+
+    function formatDate(d) {
+      const [y,m,day] = d.split('-');
+      return `${m}/${day}/${y}`;
+    }
+
+    function clearForm() {
+      document.getElementById('entryReps').value = '';
+    }
+
+    function showAlert(msg,type='warning') {
+      const c = document.getElementById('alertContainer');
+      c.innerHTML = `<div class="alert alert-${type}">${msg}</div>`;
+      setTimeout(()=> c.innerHTML = '', 4000);
+    }
+  </script>
 </body>
 </html>
